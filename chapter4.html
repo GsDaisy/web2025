@@ -1,1 +1,47 @@
+<h1>Chapter 4</h1>\
+<br><br>
+함수<br>
+function calcSum() { // 함수 선언<br>
+  let sum = 0;<br>
+  for(let i = 1; i <= 10; i++) {<br>
+    sum += i;<br>
+  }<br>
+  return sum; // 호출했던 자리로 반환<br>
+}<br>
 
+console.log ('1부터 10까지 더하면 ${calcSum()}입니다.');<br><br>
+
+
+지역 스코프-지역 변수<br>
+전역 스코프-전역 변수<br>
+let이나 const를 사용한 변수도 프로그램의 맨 앞에 선언하면 프로그램 전체에서 사용 가능 하지만 이 경우에는 ‘전역 스코프를 가진다’고 하지 않고 ‘스크립트 스코프를 가진
+다.<br><br>
+
+블록 스코프<br>
+    - 중괄호로 둘러싸인 영역으로 블록별로 변수의 유효범위가 결정<br><br>
+
+
+익명 함수<br>
+let sum = function(a, b) {<br>
+  return a + b;<br>
+}<br>
+console.log('함수 실행 결과 : ${sum(10, 20)}')<br><br>
+
+
+
+화살표 함수<br>
+{매개변수) => {함수 내용}<br><br>
+
+콜백 함수<br>
+다른 함수의 인수로 사용하는 함<br><br>
+전개 구문: 값만 꺼내서 펼쳐주는 구문(…numbers )<br><br>
+
+setInterval( ,2000);<br>
+clearInterval(타이머변수); 반복 실행 멈추기<br>
+setTimeout(콜백함수, 시간); 특정시간 후에 한번만<br>
+
+<br>
+
+
+
+    
