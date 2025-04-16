@@ -1,1 +1,24 @@
+<h1>Chapter 7</h1>
 
+document.createElement(요소명): 새로운 노드 만들기, 태그에 해당하는 텍스트 노드는 따로 만들어야 함<br>
+document.createTextElement(“Text”)<br><br>
+
+appendChild()<br>
+부모_노드.appendChild(자식_노드)<br><br>  
+
+orderButton.addEventListener("click", () => { <br>
+let newP = document.createElement("p"); <br>
+let textNode = document.createTextNode(title.innerText); <br>
+newP.appendChild(textNode); orderinfo.appendChiId(newP); <br>
+});<br><br>
+createAttribute()<br>
+let srcNode = document.createAttribute("src") srcNode.value = "images/wall.jpg"<br><br>
+
+요소노드.setAttribueNode(속성노드)<br><br>
+
+insertBefore()<br><br>
+
+요소.remove()<br><br>
+removeChild()<br><br>
+
+this.parentNode.parentNode.removeChild(this.parentNode);<br>
