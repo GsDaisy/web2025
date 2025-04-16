@@ -1,1 +1,38 @@
+<h1>Chapter 6</h1>
+
+Event 객체 메서드: preventDefault 기본 동작 취소<br>
+event객체 프로퍼티<br><br>
+
+마우스 클릭 위치 알아내기<br>
+box.addEventListner(“click”, (e)=> {<br>
+	alert(‘${e.pageX}, ${e.pageY}’);<br>
+});<br><br>
+
+캐러셀 만들기<br>
+const arrows = document.querySelectorAll(".arrow"); <br>
+let i = 0; <br>
+arrows.forEach( arrow => { arrow.addEventListener("click", (e) => { <br>
+if(e.target.id === "left") {<br>
+i--; <br>
+if (i < 0) { <br>
+ i = pics.length - 1; <br>
+ } 
+  } else if (e.target.id == "right") { <br>
+ i++; <br>
+if ( i >= pics.length ) { <br>
+ i = 0; <br>
+} <br>
+} <br>
+container.style.backgroundimage = 'url(images/${pics[i]})'; <br>
+}); <br>
+});<br>
+<br>
+이벤트 전파 방식 지정<br>
+요소.addEventListener(이벤트, 함수, 캡처 여부); <br><br>
+
+이벤트 버블링<br>
+이벤트 캡처링<br><br>
+
+event.target: 이벤트가 처음 발생한 요소, e.target.tagName<br>
+event.currentTarget: 이벤트가 전파된 현재 요소, e.currentTarget.tagName<br>
 
