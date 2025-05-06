@@ -1,1 +1,21 @@
+<h1>Chapter 8</h1>
 
+- 팝업창 만들기
+window.open("notice.html", "이름", "width=600 height=500")
+window.close()
+
+- Date 객체
+let today = new Date()
+today.getDate() //29
+
+-Math 객체
+abs(), acos(), asin(), ceil(), floor(), max(), floor(), pow(), sin(), random()
+toFixed(3)
+Math.floor(Math.random()*100 +1)
+
+- 배경 바꾸기
+function changeBg() {
+  let randomNumber = Math. floor(Math. random() *5) + 1;
+  console.log(randomNumber);
+}
+document.addEventListener("load", changeBg());
