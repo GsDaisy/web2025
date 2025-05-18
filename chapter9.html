@@ -1,1 +1,36 @@
 <h1>Chapter 9</h1>
+
+- 객체중첩<br>
+let student = {<br>
+  name : "Doremi",<br>
+  score : {<br>
+    history : 85,<br>
+    science : 94,<br>
+    average : function() {<br>
+      return (this.history + this.science) / 2<br>
+    }<br>
+  }<br>
+}<br>
+student.score.history<br>
+student.score.average() <br><br><br>
+
+- for...in 사용
+let bag = {
+  type : "backpack",
+  color : "blue",
+  size : 15
+}
+for(key in bag) {
+  console.log('${key}'); // type, color, size
+}
+for(key in bag) {
+  console.log('${key} : ${bag[key]}');
+}
+
+
+- 메서드
+Object.keys(객체명)
+Object.values(객체명)
+Object.entries(객체명)
+
+Object.setPrototypeOf(하위객체, 상위객체)
