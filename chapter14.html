@@ -1,1 +1,13 @@
+<h1>Chapter14</h1>
 
+
+- 원그리기
+const canvas = document.querySelector('canvas');
+const ctx = canvas.getContext("2d");
+ctx.fillStyle = "yellow";// 채우기 색상
+ctx.strokestyle = "red";// 선 색상
+ctx.beginPath()
+ctx.arc(200, 150, 100, 0, Math.PI * 2, true);
+ctx.closePath(); // 경로를 닫습니다.
+ctx.fiUO; // 색상을 채웁니다.
+ctx.stroke(); 
