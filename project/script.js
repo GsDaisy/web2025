@@ -19,7 +19,7 @@ function initTabs() {
 }
 
 function handleRefresh() {
-    const url = "https://openapi.seoul.go.kr:8088/61627862697379303832434e624e50/xml/ListAirQualityByDistrictService/1/25/";
+    const url = 'https://cors-anywhere.herokuapp.com/http://openapi.seoul.go.kr:8088/61627862697379303832434e624e50/xml/ListAirQualityByDistrictService/1/25/';
     const xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function () {
         if (this.readyState == 4 && this.status == 200) {
