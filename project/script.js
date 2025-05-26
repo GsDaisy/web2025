@@ -17,7 +17,7 @@ function initTabs() {
         });
     });
 }
-
+/*
 function handleRefresh() {
     const url = 'https://cors-anywhere.herokuapp.com/http://openapi.seoul.go.kr:8088/61627862697379303832434e624e50/xml/ListAirQualityByDistrictService/1/25/';
     const xhttp = new XMLHttpRequest();
@@ -28,6 +28,21 @@ function handleRefresh() {
     };
     xhttp.open("GET", url, true);
     xhttp.send();
+}*/
+
+function handleRefresh() {
+    const url = "https://seoul-proxy.vercel.app/api/seoul-air"; // ← 프록시 주소로 교체
+
+    fetch(url)
+        .then(res => res.text()) // XML이므로 .text()로 받아야 함
+        .then(str => {
+            const parser = new DOMParser();
+            const xml = parser.parseFromString(str, "text/xml");
+            updateTraffic({ responseXML: xml }); // 기존 함수에 그대로 넘김
+        })
+        .catch(err => {
+            console.error("미세먼지 데이터 불러오기 실패:", err);
+        });
 }
 
 function updateTraffic(xml) {
