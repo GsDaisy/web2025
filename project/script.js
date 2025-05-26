@@ -32,7 +32,7 @@ function handleRefresh() {
 }*/
 
 function handleRefresh() {
-    const url = "https://seoul-proxy-git-main-gsdaisys-projects.vercel.app"; // ← 프록시 주소로 교체
+    const url = "https://seoul-proxy-git-main-gsdaisys-projects.vercel.app/api/seoul-air"; // ← 프록시 주소로 교체
 
     fetch(url)
         .then(res => res.text()) // XML이므로 .text()로 받아야 함
