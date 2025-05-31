@@ -124,22 +124,22 @@ footer {
 }
 
 .grade-good {
-  background-color: #3498db;
+  background-color: #3498db !important;
   color: white;
 }
 
 .grade-normal {
-  background-color: #2ecc71;
+  background-color: #2ecc71 !important;
   color: white;
 }
 
 .grade-bad {
-  background-color: #f39c12;
+  background-color: #f39c12 !important;
   color: white;
 }
 
 .grade-very-bad {
-  background-color: #e74c3c;
+  background-color: #e74c3c !important;
   color: white;
 }
 
