@@ -11,7 +11,7 @@
 <body>
     <header>
         <h1>오늘 서울의 미세먼지 정보</h1>
-        <p>2025.5.6</p>
+        <p id="today-date"></p>
     </header>
 
     <nav>
@@ -19,6 +19,7 @@
             <li><button data-tab="info">미세먼지 정보</button></li>
             <li><button data-tab="other">기타 대기 정보</button></li>
             <li><button data-tab="graph">미세먼지 그래프</button></li>
+            <li><button data-tab="guide">미세먼지 등급 및 행동요령</button></li>
             <li><button data-tab="comment">의견을 댓글로 알려주세요</button></li>
         </ul>
     </nav>
@@ -36,7 +37,43 @@
             <h3>오늘 서울 미세먼지 그래프</h3>
             <div id="now" style="overflow: auto; position:relative;height:300px;width:400px;"></div>
         </section>
-
+        <section id="guide" class="tab-content hidden">
+          <h2>미세먼지 등급 및 행동요령</h2>
+          <table class="dust-grade-table">
+            <thead>
+              <tr>
+                <th rowspan="2">항목</th>
+                <th colspan="4">등급(㎍/㎥)</th>
+              </tr>
+              <tr>
+                <th class="grade-good">좋음<br/>0~30</th>
+                <th class="grade-normal">보통<br/>31~80</th>
+                <th class="grade-bad">나쁨<br/>81~150</th>
+                <th class="grade-very-bad">매우나쁨<br/>151이상</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th>경보물질</th>
+                <td colspan="4">미세먼지<br/>초미세먼지</td>
+              </tr>
+              <tr>
+                <th>행동요령 - 민감군</th>
+                <td>실외활동 시 특별한 행동 제한 없음</td>
+                <td>상태에 따라 유의하여 활동해야 함</td>
+                <td>장시간 또는 무리한 실외활동 제한, 특히 천식을 앓고 있는 경우 흡입기를 자주 사용할 필요 있음</td>
+                <td>실내활동 권장, 실외활동 시 의사와 상담 필요</td>
+              </tr>
+              <tr>
+                <th>행동요령 - 일반인</th>
+                <td>제한 없음</td>
+                <td>유의 필요</td>
+                <td>장시간 또는 무리한 실외활동 제한, 눈이나 목에 불편함 있을 시 활동 자제</td>
+                <td>실외활동 피해야 함</td>
+              </tr>
+            </tbody>
+          </table>
+        </section>
         <section id="comment" class="tab-content hidden">
             <h3>어떠셨나요? 댓글로 알려주세요!</h3>
             <table id="reply_area"></table>
