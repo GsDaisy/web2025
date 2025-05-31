@@ -161,10 +161,6 @@ function graph() {
     }
 
     this.render = function (canvasId, title) {
-        bar.className = "graph-bar";
-        label.className = "graph-label";
-        valLabel.className = "graph-value";
-
         const canvas = document.getElementById(canvasId);
         if (!canvas) return;
         canvas.innerHTML = ''; // 그래프 초기화
@@ -196,6 +192,7 @@ function graph() {
             else color = "#e74c3c"; // 빨강
     
             const bar = document.createElement("div");
+            bar.className = "graph-bar";
             bar.style.position = "absolute";
             bar.style.left = leftMargin + "px";
             bar.style.top = (i * (h + spacing)) + "px";
@@ -207,6 +204,7 @@ function graph() {
     
             // 구 이름
             const label = document.createElement("div");
+            label.className = "graph-label";
             label.style.position = "absolute";
             label.style.left = "10px";
             label.style.top = (i * (h + spacing) + 7) + "px";
@@ -216,6 +214,7 @@ function graph() {
     
             // 수치 표시 (막대 오른쪽)
             const valLabel = document.createElement("div");
+            valLabel.className = "graph-value";
             valLabel.style.position = "absolute";
             valLabel.style.left = (leftMargin + barWidth + 5) + "px";
             valLabel.style.top = (i * (h + spacing) + 7) + "px";
