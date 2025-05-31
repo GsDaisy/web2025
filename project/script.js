@@ -3,6 +3,7 @@ window.onload = function () {
     initTabs();
     initComments();
     setTodayDate();
+    loadComments();
 };
 function setTodayDate() {
     const now = new Date();
@@ -24,6 +25,21 @@ function initTabs() {
             });
         });
     });
+}
+function loadComments() {
+    const comments = JSON.parse(localStorage.getItem("comments")) || [];
+    const replyArea = document.getElementById("reply_area");
+    replyArea.innerHTML = "";
+    comments.forEach(comment => {
+        const row = document.createElement("tr");
+        row.innerHTML = `<td><strong>${comment.writer}</strong> (${comment.time})<br/>${comment.content}</td>`;
+        replyArea.appendChild(row);
+    });
+}
+function saveComment(writer, content) {
+    const comments = JSON.parse(localStorage.getItem("comments")) || [];
+    comments.push({ writer, content, time: new Date().toLocaleString() });
+    localStorage.setItem("comments", JSON.stringify(comments));
 }
 /*
 function handleRefresh() {
@@ -106,6 +122,8 @@ function initComments() {
         const row = document.createElement("tr");
         row.innerHTML = `<td><b>${writer}</b>: ${content}</td>`;
         table.appendChild(row);
+        saveComment(writer, content);
+        loadComments();
 
         document.getElementById("reply_writer").value = "";
         document.getElementById("reply_content").value = "";
@@ -143,6 +161,10 @@ function graph() {
     }
 
     this.render = function (canvasId, title) {
+        bar.className = "graph-bar";
+        label.className = "graph-label";
+        valLabel.className = "graph-value";
+
         const canvas = document.getElementById(canvasId);
         if (!canvas) return;
         canvas.innerHTML = ''; // 그래프 초기화
