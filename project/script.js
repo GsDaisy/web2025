@@ -2,7 +2,15 @@ window.onload = function () {
     handleRefresh();
     initTabs();
     initComments();
+    setTodayDate();
 };
+function setTodayDate() {
+    const now = new Date();
+    const yyyy = now.getFullYear();
+    const mm = String(now.getMonth() + 1).padStart(2, '0');
+    const dd = String(now.getDate()).padStart(2, '0');
+    document.getElementById("today-date").innerText = `${yyyy}.${mm}.${dd}`;
+}
 
 function initTabs() {
     const tabs = document.querySelectorAll('nav button');
@@ -138,47 +146,61 @@ function graph() {
         const canvas = document.getElementById(canvasId);
         if (!canvas) return;
         canvas.innerHTML = ''; // 그래프 초기화
-
-        const h = 250;
-        const sx = 40;
-        const dw = 15;
-        const shadow = 3;
-        const rtmax = sx + 10 + (dw + Math.round(dw / 2) + shadow) * this.data.length;
-
-        for (let i = 0; i < 5; i++) {
-            const line = document.createElement("div");
-            const y = Math.round(h / 5 * (i + 1));
-            line.style.position = "absolute";
-            line.style.top = `${y}px`;
-            line.style.left = "0";
-            line.style.width = rtmax + "px";
-            line.style.height = "1px";
-            line.style.backgroundColor = "#ccc";
-            canvas.appendChild(line);
-        }
-
-        let x = sx;
+    
+        const h = 30; // 각 바의 높이
+        const spacing = 10;
+        const leftMargin = 80;
+        const barLength = 250;
+        const fontSize = 12;
+    
+        const totalHeight = (h + spacing) * this.data.length + 50;
+        canvas.style.position = "relative";
+        canvas.style.height = totalHeight + "px";
+    
+        const titleElem = document.createElement("h4");
+        titleElem.innerText = title;
+        canvas.appendChild(titleElem);
+    
         for (let i = 0; i < this.data.length; i++) {
-            const ht1 = Math.round(this.data[i] * h / this.max);
+            const value = this.data[i];
+            const percent = Math.min(value / this.max, 1); // 비율
+            const barWidth = percent * barLength;
+    
+            // 색상 설정
+            let color = "gray";
+            if (value <= 30) color = "#3498db"; // 파랑
+            else if (value <= 80) color = "#2ecc71"; // 초록
+            else if (value <= 150) color = "#f39c12"; // 주황
+            else color = "#e74c3c"; // 빨강
+    
             const bar = document.createElement("div");
             bar.style.position = "absolute";
-            bar.style.left = `${x}px`;
-            bar.style.top = `${h - ht1}px`;
-            bar.style.width = `${dw}px`;
-            bar.style.height = `${ht1}px`;
-            bar.style.backgroundColor = this.getColor();
-            bar.title = `${this.x_name[i]}: ${this.data[i].toFixed(1)}㎍/㎥`;
+            bar.style.left = leftMargin + "px";
+            bar.style.top = (i * (h + spacing)) + "px";
+            bar.style.width = barWidth + "px";
+            bar.style.height = h + "px";
+            bar.style.backgroundColor = color;
+            bar.style.borderRadius = "4px";
             canvas.appendChild(bar);
-
+    
+            // 구 이름
             const label = document.createElement("div");
             label.style.position = "absolute";
-            label.style.top = `${h + 5}px`;
-            label.style.left = `${x - 5}px`;
-            label.style.fontSize = "10px";
+            label.style.left = "10px";
+            label.style.top = (i * (h + spacing) + 7) + "px";
+            label.style.fontSize = fontSize + "px";
             label.innerText = this.x_name[i];
             canvas.appendChild(label);
-
-            x += dw + Math.round(dw / 2) + shadow;
+    
+            // 수치 표시 (막대 오른쪽)
+            const valLabel = document.createElement("div");
+            valLabel.style.position = "absolute";
+            valLabel.style.left = (leftMargin + barWidth + 5) + "px";
+            valLabel.style.top = (i * (h + spacing) + 7) + "px";
+            valLabel.style.fontSize = fontSize + "px";
+            valLabel.innerText = `${value.toFixed(1)}㎍/㎥`;
+            canvas.appendChild(valLabel);
         }
     }
+
 }
