@@ -90,3 +90,19 @@ footer {
     background-color: #333;
     color: white;
 }
+.graph-bar {
+    border-radius: 6px;
+    transition: width 0.4s ease;
+}
+
+.graph-label {
+    font-weight: bold;
+    color: #333;
+}
+
+.graph-value {
+    font-family: 'Courier New', monospace;
+    color: #555;
+    font-size: 13px;
+}
+
