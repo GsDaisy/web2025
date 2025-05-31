@@ -105,7 +105,7 @@ function renderGraph(values) {
         g.add(guNames[i], values[i]);
     }
 
-    g.render("now", "서울시 자치구별 미세먼지");
+    g.render("now", "");
 }
 
 function initComments() {
