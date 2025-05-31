@@ -105,4 +105,41 @@ footer {
     color: #555;
     font-size: 13px;
 }
+.dust-grade-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1em;
+  font-size: 14px;
+}
+
+.dust-grade-table th,
+.dust-grade-table td {
+  border: 1px solid #ccc;
+  padding: 10px;
+  text-align: center;
+}
+
+.dust-grade-table thead th {
+  background: #e0e0e0;
+}
+
+.grade-good {
+  background-color: #3498db;
+  color: white;
+}
+
+.grade-normal {
+  background-color: #2ecc71;
+  color: white;
+}
+
+.grade-bad {
+  background-color: #f39c12;
+  color: white;
+}
+
+.grade-very-bad {
+  background-color: #e74c3c;
+  color: white;
+}
 
