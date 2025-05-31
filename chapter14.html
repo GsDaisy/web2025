@@ -1,13 +1,21 @@
 <h1>Chapter14</h1>
 
 
-- 원그리기
-const canvas = document.querySelector('canvas');
-const ctx = canvas.getContext("2d");
-ctx.fillStyle = "yellow";// 채우기 색상
-ctx.strokestyle = "red";// 선 색상
-ctx.beginPath()
-ctx.arc(200, 150, 100, 0, Math.PI * 2, true);
-ctx.closePath(); // 경로를 닫습니다.
-ctx.fiUO; // 색상을 채웁니다.
-ctx.stroke(); 
+- 원그리기<br>
+arc(x, y, r, startAngle, endAngle [, counterClockwise])<br><br>
+• x, y： 원의 중점<br>
+• r： 원의 반지름<br>
+• startAngle： 원이나 호의 시작점을 라디안으로 표시합니다.<br>
+• endAngle： 원이나 호의 끝점을 라디안으로 표시합니다.<br>
+• counterClockwise： 반시계 방향으로 그릴지의 여부<br><br><br>
+
+const canvas = document.querySelector('canvas');<br>
+const ctx = canvas.getContext("2d");<br>
+ctx.fillStyle = "yellow";// 채우기 색상<br>
+ctx.strokestyle = "red";// 선 색상<br>
+ctx.beginPath()<br>
+ctx.arc(200, 150, 100, 0, Math.PI * 2, true);<br>
+ctx.closePath(); // 경로를 닫습니다.<br>
+ctx.fiUO; // 색상을 채웁니다.<br>
+ctx.stroke(); <br>
+
