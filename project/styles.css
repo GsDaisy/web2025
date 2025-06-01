@@ -142,4 +142,21 @@ footer {
   background-color: #e74c3c !important;
   color: white;
 }
+.dust-info-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1em;
+  font-size: 14px;
+}
 
+.dust-info-table th,
+.dust-info-table td {
+  border: 1px solid #ccc;
+  padding: 10px;
+  text-align: center;
+}
+
+.dust-info-table th {
+  background-color: #f0f8ff;
+  font-weight: bold;
+}
