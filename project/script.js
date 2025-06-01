@@ -64,6 +64,7 @@ function handleRefresh() {
             const parser = new DOMParser();
             const xml = parser.parseFromString(str, "text/xml");
             updateTraffic({ responseXML: xml }); // 기존 함수에 그대로 넘김
+            renderGasInfoTable({ responseXML: xml }); 
         })
         .catch(err => {
             console.error("미세먼지 데이터 불러오기 실패:", err);
