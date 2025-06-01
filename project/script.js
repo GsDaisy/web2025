@@ -180,7 +180,18 @@ function getGasColor(type, value) {
     }
     return "#ccc";
 }
-
+function getPM10Color(value) {
+    if (value <= 30) return "rgba(52, 152, 219, 0.4)"; // 좋음 - 파랑
+    if (value <= 80) return "rgba(46, 204, 113, 0.4)"; // 보통 - 초록
+    if (value <= 150) return "rgba(243, 156, 18, 0.4)"; // 나쁨 - 주황
+    return "rgba(231, 76, 60, 0.4)"; // 매우나쁨 - 빨강
+}
+function getPM25Color(value) {
+    if (value <= 15) return "rgba(52, 152, 219, 0.4)";     // 좋음
+    if (value <= 35) return "rgba(46, 204, 113, 0.4)";     // 보통
+    if (value <= 75) return "rgba(243, 156, 18, 0.4)";     // 나쁨
+    return "rgba(231, 76, 60, 0.4)";                       // 매우나쁨
+}
 function renderGraph(values) {
     const g = new graph();
     const guNames = ["종로", "중구", "용산", "성동", "광진", "동대문", "중랑", "성북",
@@ -215,8 +226,8 @@ function renderDustInfoTable(dataList) {
         row.innerHTML = `
           <td>${date}</td>
           <td>${data.MSRSTE_NM}</td>
-          <td>${data.PM10}</td>
-          <td>${data.PM25}</td>
+          <td style="background-color:${getPM10Color(Number(data.PM10))}">${data.PM10}</td>
+          <td style="background-color:${getPM25Color(Number(data.PM25))}>${data.PM25}</td>
         `;
         tbody.appendChild(row);
     });
