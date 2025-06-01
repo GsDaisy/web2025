@@ -86,13 +86,98 @@ function updateTraffic(xml) {
         const div = document.createElement("div");
         div.className = "subwayItem";
         div.innerText = `${date}에 ${station}의 미세먼지 지수는 ${pm10}㎍/㎥, 초미세먼지 지수는 ${pm25}㎍/㎥입니다.`;
-        subwayDiv.appendChild(div);
+        //subwayDiv.appendChild(div);
 
         values.push(pm10);
     }
+    const items = xml.responseXML.getElementsByTagName("row");
+    const dataList = [];
+    for (let i = 0; i < items.length; i++) {
 
+        const item = items[i];
+        const MSRDT = item.getElementsByTagName("MSRDATE")[0]?.textContent || "";
+        const MSRSTE_NM = item.getElementsByTagName("MSRSTENAME")[0]?.textContent || "";
+        const PM10 = item.getElementsByTagName("PM10")[0]?.textContent || "-";
+        const PM25 = item.getElementsByTagName("PM25")[0]?.textContent || "-";
+
+        dataList.push({ MSRDT, MSRSTE_NM, PM10, PM25 });
+    }
+
+    renderDustInfoTable(dataList);
     localStorage.setItem("bbb", JSON.stringify(values));
     renderGraph(values);
+}
+function renderGasInfoTable(xml) {
+    const items = xml.responseXML.getElementsByTagName("row");
+    const table = document.getElementById("gasInfoTable");
+    if (!table) return;
+    table.innerHTML = "";
+
+    const thead = document.createElement("thead");
+    thead.innerHTML = `
+      <tr>
+        <th>측정일시</th>
+        <th>자치구</th>
+        <th>오존 (ppm)</th>
+        <th>이산화질소 (ppm)</th>
+        <th>일산화탄소 (ppm)</th>
+        <th>아황산가스 (ppm)</th>
+      </tr>
+    `;
+    table.appendChild(thead);
+
+    const tbody = document.createElement("tbody");
+    for (let i = 0; i < items.length; i++) {
+        const item = items[i];
+
+        const MSRDT = item.getElementsByTagName("MSRDATE")[0]?.textContent || "";
+        const MSRSTE_NM = item.getElementsByTagName("MSRSTENAME")[0]?.textContent || "";
+        const OZONE = parseFloat(item.getElementsByTagName("OZONE")[0]?.textContent || 0);
+        const NITROGEN = parseFloat(item.getElementsByTagName("NITROGEN")[0]?.textContent || 0);
+        const CARBON = parseFloat(item.getElementsByTagName("CARBON")[0]?.textContent || 0);
+        const SULFUROUS = parseFloat(item.getElementsByTagName("SULFUROUS")[0]?.textContent || 0);
+
+        const dateFormatted = MSRDT.replace(/(\d{4})(\d{2})(\d{2})(\d{2})/, "$1-$2-$3 $4:");
+
+        const row = document.createElement("tr");
+        row.innerHTML = `
+          <td>${dateFormatted}</td>
+          <td>${MSRSTE_NM}</td>
+          <td style="background-color:${getGasColor('OZONE', OZONE)}">${OZONE}</td>
+          <td style="background-color:${getGasColor('NITROGEN', NITROGEN)}">${NITROGEN}</td>
+          <td style="background-color:${getGasColor('CARBON', CARBON)}">${CARBON}</td>
+          <td style="background-color:${getGasColor('SULFUROUS', SULFUROUS)}">${SULFUROUS}</td>
+        `;
+        tbody.appendChild(row);
+    }
+    table.appendChild(tbody);
+}
+function getGasColor(type, value) {
+    if (type === "OZONE") {
+        if (value <= 0.03) return "#3498db";
+        else if (value <= 0.09) return "#2ecc71";
+        else if (value <= 0.15) return "#f39c12";
+        else return "#e74c3c";
+    }
+    if (type === "NITROGEN") {
+        if (value <= 0.03) return "#3498db";
+        else if (value <= 0.06) return "#2ecc71";
+        else if (value <= 0.2) return "#f39c12";
+        else return "#e74c3c";
+    }
+    if (type === "CARBON") {
+        if (value <= 2) return "#3498db";
+        else if (value <= 9) return "#2ecc71";
+        else if (value <= 15) return "#f39c12";
+        else return "#e74c3c";
+    }
+    if (type === "SULFUROUS") {
+        if (value <= 0.01) return "#3498db";
+        else if (value <= 0.02) return "#2ecc71";
+        else if (value <= 0.15) return "#f39c12";
+        else return "#e74c3c";
+    }
+    return "#ccc";
 }
 
 function renderGraph(values) {
@@ -106,6 +191,35 @@ function renderGraph(values) {
     }
 
     g.render("now", "");
+}
+function renderDustInfoTable(dataList) {
+    const table = document.getElementById("dustInfoTable");
+    table.innerHTML = "";
+
+    const thead = document.createElement("thead");
+    thead.innerHTML = `
+      <tr>
+        <th>측정일시</th>
+        <th>자치구</th>
+        <th>미세먼지 (㎍/㎥)</th>
+        <th>초미세먼지 (㎍/㎥)</th>
+      </tr>
+    `;
+    table.appendChild(thead);
+
+    const tbody = document.createElement("tbody");
+    dataList.forEach(data => {
+        const row = document.createElement("tr");
+        const date = data.MSRDT.replace(/(\d{4})(\d{2})(\d{2})(\d{2})/, "$1-$2-$3 $4:");
+        row.innerHTML = `
+          <td>${date}</td>
+          <td>${data.MSRSTE_NM}</td>
+          <td>${data.PM10}</td>
+          <td>${data.PM25}</td>
+        `;
+        tbody.appendChild(row);
+    });
+    table.appendChild(tbody);
 }
 
 function initComments() {
@@ -159,69 +273,114 @@ function graph() {
         this.data.push(value);
         if (value > this.max) this.max = value;
     }
-
+/*
     this.render = function (canvasId, title) {
         const canvas = document.getElementById(canvasId);
         if (!canvas) return;
         canvas.innerHTML = ''; // 그래프 초기화
-    
-        const h = 30; // 각 바의 높이
-        const spacing = 10;
-        const leftMargin = 80;
-        const barLength = 250;
-        const fontSize = 12;
-    
-        const totalHeight = (h + spacing) * this.data.length + 50;
-        canvas.style.position = "relative";
-        canvas.style.height = totalHeight + "px";
-    
-        const titleElem = document.createElement("h4");
-        titleElem.innerText = title;
-        canvas.appendChild(titleElem);
-    
+
+        const h = 250;
+        const sx = 40;
+        const dw = 15;
+        const shadow = 3;
+        const rtmax = sx + 10 + (dw + Math.round(dw / 2) + shadow) * this.data.length;
+
+        for (let i = 0; i < 5; i++) {
+            const line = document.createElement("div");
+            const y = Math.round(h / 5 * (i + 1));
+            line.style.position = "absolute";
+            line.style.top = `${y}px`;
+            line.style.left = "0";
+            line.style.width = rtmax + "px";
+            line.style.height = "1px";
+            line.style.backgroundColor = "#ccc";
+            canvas.appendChild(line);
+        }
+
+        let x = sx;
         for (let i = 0; i < this.data.length; i++) {
-            const value = this.data[i];
-            const percent = Math.min(value / this.max, 1); // 비율
-            const barWidth = percent * barLength;
-    
-            // 색상 설정
-            let color = "gray";
-            if (value <= 30) color = "#3498db"; // 파랑
-            else if (value <= 80) color = "#2ecc71"; // 초록
-            else if (value <= 150) color = "#f39c12"; // 주황
-            else color = "#e74c3c"; // 빨강
-    
+            const ht1 = Math.round(this.data[i] * h / this.max);
             const bar = document.createElement("div");
-            bar.className = "graph-bar";
             bar.style.position = "absolute";
-            bar.style.left = leftMargin + "px";
-            bar.style.top = (i * (h + spacing)) + "px";
-            bar.style.width = barWidth + "px";
-            bar.style.height = h + "px";
-            bar.style.backgroundColor = color;
-            bar.style.borderRadius = "4px";
+            bar.style.left = `${x}px`;
+            bar.style.top = `${h - ht1}px`;
+            bar.style.width = `${dw}px`;
+            bar.style.height = `${ht1}px`;
+            bar.style.backgroundColor = this.getColor();
+            bar.title = `${this.x_name[i]}: ${this.data[i].toFixed(1)}㎍/㎥`;
             canvas.appendChild(bar);
-    
-            // 구 이름
+
             const label = document.createElement("div");
-            label.className = "graph-label";
             label.style.position = "absolute";
-            label.style.left = "10px";
-            label.style.top = (i * (h + spacing) + 7) + "px";
-            label.style.fontSize = fontSize + "px";
+            label.style.top = `${h + 5}px`;
+            label.style.left = `${x - 5}px`;
+            label.style.fontSize = "10px";
             label.innerText = this.x_name[i];
             canvas.appendChild(label);
-    
-            // 수치 표시 (막대 오른쪽)
-            const valLabel = document.createElement("div");
-            valLabel.className = "graph-value";
-            valLabel.style.position = "absolute";
-            valLabel.style.left = (leftMargin + barWidth + 5) + "px";
-            valLabel.style.top = (i * (h + spacing) + 7) + "px";
-            valLabel.style.fontSize = fontSize + "px";
-            valLabel.innerText = `${value.toFixed(1)}㎍/㎥`;
-            canvas.appendChild(valLabel);
+
+            x += dw + Math.round(dw / 2) + shadow;
         }
+    }*/
+this.render = function (canvasId, title) {
+    const canvas = document.getElementById(canvasId);
+    if (!canvas) return;
+    canvas.innerHTML = ''; // 그래프 초기화
+
+    const h = 30; // 각 바의 높이
+    const spacing = 10;
+    const leftMargin = 80;
+    const barLength = 250;
+    const fontSize = 12;
+
+    const totalHeight = (h + spacing) * this.data.length + 50;
+    canvas.style.position = "relative";
+    canvas.style.height = totalHeight + "px";
+
+    const titleElem = document.createElement("h4");
+    titleElem.innerText = title;
+    canvas.appendChild(titleElem);
+
+    for (let i = 0; i < this.data.length; i++) {
+        const value = this.data[i];
+        const percent = Math.min(value / this.max, 1); // 비율
+        const barWidth = percent * barLength;
+
+        // 색상 설정
+        let color = "gray";
+        if (value <= 30) color = "#3498db"; // 파랑
+        else if (value <= 80) color = "#2ecc71"; // 초록
+        else if (value <= 150) color = "#f39c12"; // 주황
+        else color = "#e74c3c"; // 빨강
+
+        const bar = document.createElement("div");
+        bar.style.position = "absolute";
+        bar.style.left = leftMargin + "px";
+        bar.style.top = (i * (h + spacing)) + "px";
+        bar.style.width = barWidth + "px";
+        bar.style.height = h + "px";
+        bar.style.backgroundColor = color;
+        bar.style.borderRadius = "4px";
+        canvas.appendChild(bar);
+
+        // 구 이름
+        const label = document.createElement("div");
+        label.style.position = "absolute";
+        label.style.left = "10px";
+        label.style.top = (i * (h + spacing) + 7) + "px";
+        label.style.fontSize = fontSize + "px";
+        label.innerText = this.x_name[i];
+        canvas.appendChild(label);
+
+        // 수치 표시 (막대 오른쪽)
+        const valLabel = document.createElement("div");
+        valLabel.style.position = "absolute";
+        valLabel.style.left = (leftMargin + barWidth + 5) + "px";
+        valLabel.style.top = (i * (h + spacing) + 7) + "px";
+        valLabel.style.fontSize = fontSize + "px";
+        valLabel.innerText = `${value.toFixed(1)}㎍/㎥`;
+        canvas.appendChild(valLabel);
     }
+}
+
 
 }
