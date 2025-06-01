@@ -227,7 +227,7 @@ function renderDustInfoTable(dataList) {
           <td>${date}</td>
           <td>${data.MSRSTE_NM}</td>
           <td style="background-color:${getPM10Color(Number(data.PM10))}">${data.PM10}</td>
-          <td style="background-color:${getPM25Color(Number(data.PM25))}>${data.PM25}</td>
+          <td style="background-color:${getPM25Color(Number(data.PM25))}">${data.PM25}</td>
         `;
         tbody.appendChild(row);
     });
