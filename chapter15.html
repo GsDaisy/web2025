@@ -1,2 +1,20 @@
 <h1>Chapter13, 17, 18(13주차)</h1>
 
+- 프로미스
+처리에 성공했을 때 실행할 콜백 함수와 성공하지 않았을때 실행할 콜백함수를 미리 약속하는 것
+
+let likePizza = false;
+const pizza = new Promise((resolve, reject) => {
+  if (likePizza)
+    resolve('피자를 주문합니다.');
+  else
+    reject('피자를 주문하지 않습니다. ');
+});
+
+pizza
+  .then(
+    result => console.log(result)
+  )
+  .catch(
+    err => console.log(err)
+);
