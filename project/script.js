@@ -155,30 +155,30 @@ function renderGasInfoTable(xml) {
 }
 function getGasColor(type, value) {
     if (type === "OZONE") {
-        if (value <= 0.03) return "#3498db";
-        else if (value <= 0.09) return "#2ecc71";
-        else if (value <= 0.15) return "#f39c12";
-        else return "#e74c3c";
+        if (value <= 0.03) return "rgba(52, 152, 219, 0.4)";
+        else if (value <= 0.09) return "rgba(46, 204, 113, 0.4)";
+        else if (value <= 0.15) return "rgba(243, 156, 18, 0.4)";
+        else return "rgba(231, 76, 60, 0.4)";
     }
     if (type === "NITROGEN") {
-        if (value <= 0.03) return "#3498db";
-        else if (value <= 0.06) return "#2ecc71";
-        else if (value <= 0.2) return "#f39c12";
-        else return "#e74c3c";
+        if (value <= 0.03) return "rgba(52, 152, 219, 0.4)";
+        else if (value <= 0.06) return "rgba(46, 204, 113, 0.4)";
+        else if (value <= 0.2) return "rgba(243, 156, 18, 0.4)";
+        else return "rgba(231, 76, 60, 0.4)";
     }
     if (type === "CARBON") {
-        if (value <= 2) return "#3498db";
-        else if (value <= 9) return "#2ecc71";
-        else if (value <= 15) return "#f39c12";
-        else return "#e74c3c";
+        if (value <= 2) return "rgba(52, 152, 219, 0.4)";
+        else if (value <= 9) return "rgba(46, 204, 113, 0.4)";
+        else if (value <= 15) return "rgba(243, 156, 18, 0.4)";
+        else return "rgba(231, 76, 60, 0.4)";
     }
     if (type === "SULFUROUS") {
-        if (value <= 0.01) return "#3498db";
-        else if (value <= 0.02) return "#2ecc71";
-        else if (value <= 0.15) return "#f39c12";
-        else return "#e74c3c";
+        if (value <= 0.01) return "rgba(52, 152, 219, 0.4)";
+        else if (value <= 0.02) return "rgba(46, 204, 113, 0.4)";
+        else if (value <= 0.15) return "rgba(243, 156, 18, 0.4)";
+        else return "rgba(231, 76, 60, 0.4)";
     }
-    return "#ccc";
+    return "rgba(200,200,200,0.2)";
 }
 function getPM10Color(value) {
     if (value <= 30) return "rgba(52, 152, 219, 0.4)"; // 좋음 - 파랑
