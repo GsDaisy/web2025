@@ -7,6 +7,9 @@
     <title>서울 미세먼지 정보</title>
     <link rel="stylesheet" href="styles.css">
     <script src="script.js" defer></script>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
 </head>
 <body>
     <header>
@@ -27,8 +30,6 @@
     <main>
         <section id="info" class="tab-content">
             <!-- ✅ 1. HEAD에 넣을 외부 라이브러리 -->
-<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 
 <!-- ✅ 2. 지도 표시 DIV -->
 <div id="seoulMap" style="height: 500px; border-radius: 10px; margin-top: 1em;"></div>
