@@ -81,7 +81,7 @@
       attribution: '&copy; OpenStreetMap contributors'
     }).addTo(map);
 
-    fetch('data/seoul_municipalities_geo_simple.json')
+    fetch('seoul_municipalities_geo_simple.json')
       .then(res => res.json())
       .then(geojson => {
         L.geoJSON(geojson, {
