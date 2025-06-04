@@ -1,10 +1,74 @@
+  // 예시용 더미 데이터
+  const dummyData = [
+    { MSRSTE_NM: "강남구", PM10: 48, PM25: 21 },
+    { MSRSTE_NM: "성북구", PM10: 37, PM25: 16 },
+    { MSRSTE_NM: "송파구", PM10: 55, PM25: 24 },
+    { MSRSTE_NM: "종로구", PM10: 30, PM25: 12 },
+  ];
 window.onload = function () {
     handleRefresh();
     initTabs();
     initComments();
     setTodayDate();
     loadComments();
+    initDistrictMap(dummyData);
 };
+let currentHighlight;
+
+
+
+  function initDistrictMap(dataList) {
+    const map = L.map('seoulMap').setView([37.5665, 126.9780], 11);
+
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '&copy; OpenStreetMap contributors'
+    }).addTo(map);
+
+    fetch('https://gsdaisy.github.io/web2025/project/seoul_municipalities_geo_simple.json')
+      .then(res => res.json())
+      .then(geojson => {
+        L.geoJSON(geojson, {
+          onEachFeature: function (feature, layer) {
+            const gu = feature.properties.name;
+            layer.bindTooltip(gu, {
+              permanent: true,
+              direction: 'center',
+              className: 'gu-label'
+            });
+
+            layer.on('click', () => {
+              const match = dataList.find(d => d.MSRSTE_NM === gu);
+              highlightDistrict(layer);
+              showDistrictInfo(gu, match);
+            });
+          },
+          style: {
+            color: "#666",
+            weight: 1,
+            fillColor: "#b0c4de",
+            fillOpacity: 0.4
+          }
+        }).addTo(map);
+      });
+  }
+
+  function highlightDistrict(layer) {
+    if (currentHighlight) {
+      currentHighlight.setStyle({ fillColor: "#b0c4de" });
+    }
+    layer.setStyle({ fillColor: "#3498db" });
+    currentHighlight = layer;
+  }
+
+  function showDistrictInfo(name, data) {
+    const box = document.getElementById("districtInfoBox");
+    box.innerHTML = `
+      <h4>${name} 대기질 정보</h4>
+      <p>미세먼지 (PM10): <strong>${data?.PM10 ?? '-'}</strong> ㎍/㎥</p>
+      <p>초미세먼지 (PM2.5): <strong>${data?.PM25 ?? '-'}</strong> ㎍/㎥</p>
+    `;
+    box.classList.remove("hidden");
+  }
 function setTodayDate() {
     const now = new Date();
     const yyyy = now.getFullYear();
