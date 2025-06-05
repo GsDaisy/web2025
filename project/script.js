@@ -29,7 +29,10 @@ let currentHighlight;
               direction: 'center',
               className: 'gu-label'
             });
-
+            const match = dataList.find(d => d.MSRSTE_NM === '중구');
+            highlightDistrict(layer);
+            showDistrictInfo(gu, match);
+              
             layer.on('click', () => {
               const match = dataList.find(d => d.MSRSTE_NM === gu);
               highlightDistrict(layer);
