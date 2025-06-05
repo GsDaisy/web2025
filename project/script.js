@@ -1,17 +1,11 @@
-  // 예시용 더미 데이터
-  const dummyData = [
-    { MSRSTE_NM: "강남구", PM10: 48, PM25: 21 },
-    { MSRSTE_NM: "성북구", PM10: 37, PM25: 16 },
-    { MSRSTE_NM: "송파구", PM10: 55, PM25: 24 },
-    { MSRSTE_NM: "종로구", PM10: 30, PM25: 12 },
-  ];
+
 window.onload = function () {
     handleRefresh();
     initTabs();
     initComments();
     setTodayDate();
     loadComments();
-    initDistrictMap(dummyData);
+    
 };
 let currentHighlight;
 
@@ -105,19 +99,6 @@ function saveComment(writer, content) {
     comments.push({ writer, content, time: new Date().toLocaleString() });
     localStorage.setItem("comments", JSON.stringify(comments));
 }
-/*
-function handleRefresh() {
-    const url = 'https://cors-anywhere.herokuapp.com/http://openapi.seoul.go.kr:8088/61627862697379303832434e624e50/xml/ListAirQualityByDistrictService/1/25/';
-    const xhttp = new XMLHttpRequest();
-    xhttp.onreadystatechange = function () {
-        if (this.readyState == 4 && this.status == 200) {
-            updateTraffic(this);
-        }
-    };
-    xhttp.open("GET", url, true);
-    xhttp.send();
-    https://seoul-proxy-git-main-gsdaisys-projects.vercel.app
-}*/
 
 function handleRefresh() {
     const url = "https://seoul-proxy-git-main-gsdaisys-projects.vercel.app/api/seoul-air"; // ← 프록시 주소로 교체
@@ -169,6 +150,7 @@ function updateTraffic(xml) {
     }
 
     renderDustInfoTable(dataList);
+    initDistrictMap(dataList);
     localStorage.setItem("bbb", JSON.stringify(values));
     renderGraph(values);
 }
